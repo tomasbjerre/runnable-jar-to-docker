@@ -79,11 +79,15 @@ fetch(pomUrl).then((response: any) => {
     render('builddir/Dockerfile', context, `${workFolder}`);
 
     const fromReadme = path.resolve(process.cwd(), 'README.md');
-    if (fs.existsSync(fromReadme))
+    if (fs.existsSync(fromReadme)) {
+      console.log(`Copying ${fromReadme} to builddir`);
       fs.copyFileSync(
         fromReadme,
         path.resolve(workFolder, 'builddir', 'README.md')
       );
+    } else {
+      console.log(`Not copying any README to builddir`);
+    }
 
     const command = exec(
       `sh build-docker.sh ${options.mavenVersion}`,
