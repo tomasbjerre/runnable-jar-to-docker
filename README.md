@@ -31,4 +31,5 @@ Options:
 
 ## Example projects
 
-- [git-changelog-command-line](https://hub.docker.com/r/tomasbjerre/git-changelog-command-line/)
+- [git-changelog-command-line](https://hub.docker.com/r/tomasbjerre/git-changelog-command-line)
+- [violations-command-line](https://hub.docker.com/r/tomasbjerre/violations-command-line)
