@@ -29,6 +29,7 @@ const options = program.opts();
 const mavenGroupSlashes = options.mavenGroup.replaceAll('.', '/');
 
 const pomUrl = `https://repo1.maven.org/maven2/${mavenGroupSlashes}/${options.mavenArtifact}/${options.mavenVersion}/${options.mavenArtifact}-${options.mavenVersion}.pom`;
+console.log(`Getting ${pomUrl}`);
 fetch(pomUrl).then((response: any) => {
   response.text().then((pomXmlString: string) => {
     const parser = new XMLParser();
