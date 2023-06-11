@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set +x
 docker login -u {{dockerUser}} -p {{dockerPassword}}
 
 to_file=builddir/{{cliname}}.jar
