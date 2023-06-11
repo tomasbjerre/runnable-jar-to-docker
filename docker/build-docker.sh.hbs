@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+docker login -u {{dockerUser}} -p {{dockerPassword}}
+
+to_file=docker/{{cliname}}.jar
+echo Downloading {{version}} to $to_file
+rm -f $to_file
+curl https://repo1.maven.org/maven2/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
+ --output $to_file
+
+echo Building Docker image
+docker rmi -f {{dockerUser}}/{{cliname}}:{{version}} \
+ || echo No previous image existed
+docker build \
+ -t {{dockerUser}}/{{cliname}}:{{version}} builddir
+
+echo Push image
+docker images
+docker push {{dockerUser}}/{{cliname}}:{{version}}
+
+echo Update README.md
+docker run --rm -t \
+ -v $(pwd):/myvol \
+ -e DOCKER_USER='{{dockerUser}}' \
+ -e DOCKER_PASS=$dockerhub_token \
+ chko/docker-pushrm:1 \
+ --file /myvol/README.md \
+ --short "{{shortDescription}}" \
+ --debug \
+ {{dockerUser}}/{{cliname}}

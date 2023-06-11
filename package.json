@@ -1,0 +1,37 @@
+{
+  "name": "runnable-jar-to-docker",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run format && tsc -p .",
+    "format": "prettier --write .",
+    "release": "npm run set-version; npm run build && npm publish && npm run changelog",
+    "set-version": "npm version $(npx git-changelog-command-line --print-next-version)",
+    "changelog": "npx git-changelog-command-line -of CHANGELOG.md && git commit -a -m 'chore: changelog' && git push --follow-tags"
+  },
+  "bin": "./lib/cli.js",
+  "dependencies": {
+    "commander": "^10.0.1",
+    "fast-xml-parser": "^4.2.4",
+    "handlebars": "^4.7.7",
+    "node-fetch": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.1",
+    "@types/node-fetch": "^2.6.4",
+    "prettier": "^2.0.5",
+    "ts-node": "^8.9.0",
+    "typescript": "^3.8.3"
+  },
+  "homepage": "https://github.com/tomasbjerre/runnable-jar-to-docker",
+  "repository": "git@github.com:tomasbjerre/runnable-jar-to-docker.git",
+  "files": [
+    "lib",
+    "docker"
+  ],
+  "author": "Tomas Bjerre",
+  "keywords": [
+    "java",
+    "Docker"
+  ],
+  "license": "Apache 2"
+}

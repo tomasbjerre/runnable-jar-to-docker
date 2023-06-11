@@ -1,0 +1,6 @@
+FROM openjdk:17
+COPY {{cliname}}.jar /usr/local/bin/{{cliname}}.jar
+COPY bin /usr/local/bin/{{cliname}}
+WORKDIR /home/{{cliname}}
+RUN chmod +x /usr/local/bin/{{cliname}}
+ENTRYPOINT ["{{cliname}}"]
