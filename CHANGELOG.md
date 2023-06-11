@@ -2,6 +2,20 @@
 
 Changelog of runnable-jar-to-docker.
 
+## v0.0.8 (2023-06-11)
+
+### Bug Fixes
+
+-  more logging ([7dc7a](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/7dc7a3dba615e33) Tomas Bjerre)  
+
+### Other changes
+
+**0.0.8**
+
+
+[ac842](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/ac842a2b920ee8a) Tomas Bjerre *2023-06-11 11:51:17*
+
+
 ## v0.0.7 (2023-06-11)
 
 ### Bug Fixes
