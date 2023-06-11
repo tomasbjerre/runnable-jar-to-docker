@@ -6,7 +6,7 @@ import { XMLParser } from 'fast-xml-parser';
 import { Context } from './types';
 import Handlebars from 'handlebars';
 import path from 'path';
-import { spawn } from 'child_process';
+import { exec } from 'child_process';
 const os = require('os');
 const fs = require('fs');
 const crypto = require('crypto');
@@ -78,13 +78,19 @@ fetch(pomUrl).then((response: any) => {
     render('builddir/bin', context, `${workFolder}`);
     render('builddir/Dockerfile', context, `${workFolder}`);
 
-    const command = spawn(`${workFolder}/build-docker.sh`, [
-      options.mavenVersion,
-    ]);
-    command.stdout.pipe(process.stdout);
-    command.stderr.pipe(process.stderr);
-    command.on('close', (code: number) => {
-      process.exit(code);
-    });
+    const command = exec(
+      `${workFolder}/build-docker.sh ${options.mavenVersion}`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error(`${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.error(`stderr: ${stderr}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+      }
+    );
   });
 });
