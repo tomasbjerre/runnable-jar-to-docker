@@ -20,12 +20,18 @@ docker images
 docker push {{dockerUser}}/{{cliname}}:{{version}}
 
 echo Update README.md
-docker run --rm -t \
- -v $(pwd):/myvol \
- -e DOCKER_USER='{{dockerUser}}' \
- -e DOCKER_PASS=$dockerhub_token \
- chko/docker-pushrm:1 \
- --file /myvol/README.md \
- --short "{{shortDescription}}" \
- --debug \
- {{dockerUser}}/{{cliname}}
+readmeFile=README.md
+if [ -f "$readmeFile" ]; then
+    echo "$readmeFile exists, adding readme."
+    docker run --rm -t \
+    -v $(pwd):/myvol \
+    -e DOCKER_USER='{{dockerUser}}' \
+    -e DOCKER_PASS=$dockerhub_token \
+    chko/docker-pushrm:1 \
+    --file /myvol/README.md \
+    --short "{{shortDescription}}" \
+    --debug \
+    {{dockerUser}}/{{cliname}}
+else
+    echo "$readmeFile does not exist, not adding readme. Have a README.md in CWD if you want it added."
+fi
