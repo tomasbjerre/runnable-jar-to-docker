@@ -78,6 +78,11 @@ fetch(pomUrl).then((response: any) => {
     render('builddir/bin', context, `${workFolder}`);
     render('builddir/Dockerfile', context, `${workFolder}`);
 
+    fs.copyFileSync(
+      path.resolve(__dirname, 'README.md'),
+      path.resolve(workFolder, 'builddir', 'README.md')
+    );
+
     const command = exec(
       `sh build-docker.sh ${options.mavenVersion}`,
       { cwd: workFolder },
