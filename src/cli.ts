@@ -25,6 +25,9 @@ const program = new Command()
 program.parse(process.argv);
 
 const options = program.opts();
+console.log(
+  `Params: ${JSON.stringify({ ...options, dockerPassword: '***' }, null, 4)}`
+);
 
 const mavenGroupSlashes = options.mavenGroup.replaceAll('.', '/');
 
