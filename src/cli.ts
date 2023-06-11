@@ -82,15 +82,13 @@ fetch(pomUrl).then((response: any) => {
       `sh build-docker.sh ${options.mavenVersion}`,
       { cwd: workFolder },
       (error, stdout, stderr) => {
+        console.log(`stdout: ${stdout}`);
         if (error) {
           console.error(`${error.message}`);
-          return;
         }
         if (stderr) {
           console.error(`stderr: ${stderr}`);
-          return;
         }
-        console.log(`stdout: ${stdout}`);
       }
     );
   });
