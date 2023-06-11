@@ -2,7 +2,7 @@
 set -e
 docker login -u {{dockerUser}} -p {{dockerPassword}}
 
-to_file=docker/{{cliname}}.jar
+to_file=builddir/{{cliname}}.jar
 echo Downloading {{version}} to $to_file
 rm -f $to_file
 curl https://repo1.maven.org/maven2/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
