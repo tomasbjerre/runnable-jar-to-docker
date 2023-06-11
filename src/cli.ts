@@ -80,13 +80,10 @@ fetch(pomUrl).then((response: any) => {
 
     const fromReadme = path.resolve(process.cwd(), 'README.md');
     if (fs.existsSync(fromReadme)) {
-      console.log(`Copying ${fromReadme} to builddir`);
-      fs.copyFileSync(
-        fromReadme,
-        path.resolve(workFolder, 'builddir', 'README.md')
-      );
+      console.log(`Copying ${fromReadme} to ${workFolder}`);
+      fs.copyFileSync(fromReadme, path.resolve(workFolder, 'README.md'));
     } else {
-      console.log(`Not copying any README to builddir`);
+      console.log(`Not copying ${fromReadme} to ${workFolder}`);
     }
 
     const command = exec(
