@@ -79,7 +79,8 @@ fetch(pomUrl).then((response: any) => {
     render('builddir/Dockerfile', context, `${workFolder}`);
 
     const command = exec(
-      `sh ${workFolder}/build-docker.sh ${options.mavenVersion}`,
+      `sh build-docker.sh ${options.mavenVersion}`,
+      { cwd: workFolder },
       (error, stdout, stderr) => {
         if (error) {
           console.error(`${error.message}`);
