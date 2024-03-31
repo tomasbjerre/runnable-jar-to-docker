@@ -53,7 +53,7 @@ npm run build \
   --docker-password $dockerhub_token \
   --maven-group se.bjurr.violations \
   --maven-artifact violations-command-line \
-  --maven-version 1.24.1 \
+  --maven-version 1.24.2 \
   --compile-native true \
   --dry-run true
 ```

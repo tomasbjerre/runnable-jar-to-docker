@@ -1,5 +1,5 @@
 {{#if compileNative}}
-FROM alpine:latest
+FROM amd64/alpine:3.19.1
 COPY {{cliname}} /usr/local/bin/{{cliname}}
 {{else}}
 FROM openjdk:17

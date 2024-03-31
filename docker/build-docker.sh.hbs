@@ -13,7 +13,7 @@ curl https://repo1.maven.org/maven2/{{mavenGroupSlashes}}/{{cliname}}/{{version}
 
 {{#if compileNative}}
 echo Building native image
-native-image -jar $to_file builddir/{{cliname}}
+native-image --no-fallback --static -jar $to_file builddir/{{cliname}}
 {{else}}
 echo Not building native image
 {{/if}}
@@ -28,6 +28,10 @@ docker build \
 
 echo Push image
 docker images
+
+{{#if dryRun}}
+echo Not pushing when in dry run mode
+{{else}}
 docker push {{dockerUser}}/{{cliname}}:{{version}}
 
 
@@ -48,3 +52,4 @@ else
     echo "$readmeFile does not exist, not adding readme. Have a README.md in CWD if you want it added."
     ls
 fi
+{{/if}}

@@ -6,7 +6,7 @@ import { XMLParser } from 'fast-xml-parser';
 import { Context } from './types';
 import Handlebars from 'handlebars';
 import path from 'path';
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 const os = require('os');
 const fs = require('fs');
 const crypto = require('crypto');
@@ -102,19 +102,19 @@ fetch(pomUrl).then((response: any) => {
       console.log(`Not copying ${fromReadme} to ${workFolder}`);
     }
 
-    if (!context.dryRun)
-      exec(
-        `sh build-docker.sh ${options.mavenVersion}`,
-        { cwd: workFolder },
-        (error, stdout, stderr) => {
-          console.log(`stdout: ${stdout}`);
-          if (error) {
-            console.error(`${error.message}`);
-          }
-          if (stderr) {
-            console.error(`stderr: ${stderr}`);
-          }
-        }
-      );
+    const spawnedBuildDocker = spawn(
+      'sh',
+      ['build-docker.sh', options.mavenVersion],
+      { cwd: workFolder }
+    );
+    spawnedBuildDocker.stdout.on('data', function (data) {
+      console.log('stdout: ' + data.toString());
+    });
+    spawnedBuildDocker.stderr.on('data', function (data) {
+      console.log('stderr: ' + data.toString());
+    });
+    spawnedBuildDocker.on('exit', function (code) {
+      console.log('child process exited with code ' + code);
+    });
   });
 });
