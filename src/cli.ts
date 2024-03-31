@@ -20,7 +20,17 @@ const program = new Command()
   .option('--docker-password <password>', 'Docker password')
   .option('--maven-group <group>', 'Maven Group')
   .option('--maven-artifact <artifact>', 'Maven Artifact')
-  .option('--maven-version <version>', 'Maven Package Version');
+  .option('--maven-version <version>', 'Maven Package Version')
+  .option(
+    '--compile-native <boolean>',
+    'True if the JAR should be compiled with GraalVM to native binary',
+    false
+  )
+  .option(
+    '--dry-run <boolean>',
+    'True if nothing should be done, just printed',
+    false
+  );
 
 program.parse(process.argv);
 
@@ -46,6 +56,8 @@ fetch(pomUrl).then((response: any) => {
       dockerUser: options.dockerUsername,
       dockerPassword: options.dockerPassword,
       shortDescription: pomDescription,
+      compileNative: options.compileNative,
+      dryRun: options.dryRun,
     };
 
     const workFolder = os.tmpdir() + '/' + crypto.randomUUID();
@@ -71,7 +83,11 @@ fetch(pomUrl).then((response: any) => {
 
       const template = Handlebars.compile(`${source}`);
       const result = template(context);
-      fs.writeFileSync(`${targetFolder}/${templateFile}`, result);
+      const file = `${targetFolder}/${templateFile}`;
+      if (context) {
+        console.log(file + '\n' + result + '\n');
+      }
+      fs.writeFileSync(file, result);
     };
 
     render('build-docker.sh', context, `${workFolder}`);
@@ -86,18 +102,19 @@ fetch(pomUrl).then((response: any) => {
       console.log(`Not copying ${fromReadme} to ${workFolder}`);
     }
 
-    const command = exec(
-      `sh build-docker.sh ${options.mavenVersion}`,
-      { cwd: workFolder },
-      (error, stdout, stderr) => {
-        console.log(`stdout: ${stdout}`);
-        if (error) {
-          console.error(`${error.message}`);
+    if (!context.dryRun)
+      exec(
+        `sh build-docker.sh ${options.mavenVersion}`,
+        { cwd: workFolder },
+        (error, stdout, stderr) => {
+          console.log(`stdout: ${stdout}`);
+          if (error) {
+            console.error(`${error.message}`);
+          }
+          if (stderr) {
+            console.error(`stderr: ${stderr}`);
+          }
         }
-        if (stderr) {
-          console.error(`stderr: ${stderr}`);
-        }
-      }
-    );
+      );
   });
 });

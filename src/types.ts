@@ -5,4 +5,6 @@ export interface Context {
   dockerUser: string;
   dockerPassword: string;
   shortDescription: string;
+  compileNative: boolean;
+  dryRun: boolean;
 }

@@ -3,11 +3,21 @@ set -e
 set +x
 docker login -u {{dockerUser}} -p {{dockerPassword}}
 
+
 to_file=builddir/{{cliname}}.jar
 echo Downloading {{version}} to $to_file
 rm -f $to_file
 curl https://repo1.maven.org/maven2/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
  --output $to_file
+
+
+{{#if compileNative}}
+echo Building native image
+native-image -jar $to_file builddir/{{cliname}}
+{{else}}
+echo Not building native image
+{{/if}}
+
 
 echo Building Docker image
 docker rmi -f {{dockerUser}}/{{cliname}}:{{version}} \
@@ -15,9 +25,11 @@ docker rmi -f {{dockerUser}}/{{cliname}}:{{version}} \
 docker build \
  -t {{dockerUser}}/{{cliname}}:{{version}} builddir
 
+
 echo Push image
 docker images
 docker push {{dockerUser}}/{{cliname}}:{{version}}
+
 
 echo Update README.md
 readmeFile=README.md
