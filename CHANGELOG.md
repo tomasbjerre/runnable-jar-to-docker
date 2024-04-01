@@ -2,6 +2,20 @@
 
 Changelog of runnable-jar-to-docker.
 
+## v0.1.4 (2024-04-01)
+
+### Bug Fixes
+
+-  use sh because bash not available in temurin alpine jre ([8a201](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/8a201194dc64e2f) Tomas Bjerre)  
+
+### Other changes
+
+**0.1.4**
+
+
+[6e2e5](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/6e2e58fc7063464) Tomas Bjerre *2024-04-01 10:35:15*
+
+
 ## v0.1.3 (2024-04-01)
 
 ### Bug Fixes
