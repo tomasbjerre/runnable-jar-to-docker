@@ -26,8 +26,8 @@ Options:
   --maven-group <group>         Maven Group
   --maven-artifact <artifact>   Maven Artifact
   --maven-version <version>     Maven Package Version
-  --compile-native              True if the JAR should be compiled with GraalVM to native binary (default: false)
-  --dry-run                     True if nothing should be done, just printed (default: false)
+  --compile-native              Given if the JAR should be compiled with GraalVM to native binary
+  --dry-run                     Given if nothing should be done, just printed
   -h, --help                    display help for command
 ```
 
@@ -53,13 +53,16 @@ npm run build \
   --docker-password $dockerhub_token \
   --maven-group se.bjurr.violations \
   --maven-artifact violations-command-line \
-  --maven-version 1.24.2 \
+  --maven-version 3.0.0 \
   --compile-native \
   --dry-run
 ```
 
 ```bash
-docker run --mount src="$(pwd)",target=/home/violations-command-line,type=bind tomasbjerre/violations-command-line:1.24.2 -v "FINDBUGS" src/test/resources/findbugs/ ".*main\.xml$" "Spotbugs"
+docker run \
+ --mount src="$(pwd)",target=/home/violations-command-line,type=bind \
+ tomasbjerre/violations-command-line:3.0.0 \
+ -v "FINDBUGS" src/test/resources/findbugs/ ".*main\.xml$" "Spotbugs"
 ```
 
 Another example:
@@ -76,7 +79,10 @@ npm run build \
 ```
 
 ```bash
-docker run --mount src="$(pwd)",target=/home/git-changelog-command-line,type=bind tomasbjerre/git-changelog-command-line:2.2.1 -std
+docker run \
+ --mount src="$(pwd)",target=/home/git-changelog-command-line,type=bind \
+ tomasbjerre/git-changelog-command-line:2.2.1 \
+ -std
 ```
 
 Or open a shell:
