@@ -6,6 +6,8 @@ RUN java -agentlib:native-image-agent=config-merge-dir=/usr/local/bin/config -ja
  && cat /usr/local/bin/config/reflect-config.json
 RUN native-image \
   -H:ConfigurationFileDirectories=/usr/local/bin/config \
+  -H:IncludeResources=".*(json|xml|properties|txt)$" \
+  -H:Log=registerResource:3 \
   --static \
   --libc=musl \
   -jar /usr/local/bin/{{cliname}}.jar \
