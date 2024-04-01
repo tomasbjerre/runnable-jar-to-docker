@@ -2,6 +2,20 @@
 
 Changelog of runnable-jar-to-docker.
 
+## v0.1.2 (2024-04-01)
+
+### Bug Fixes
+
+-  very much smaller image size ([cc4b5](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/cc4b59867b2b1bf) Tomas Bjerre)  
+
+### Other changes
+
+**0.1.2**
+
+
+[ef3f2](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/ef3f29ca538c223) Tomas Bjerre *2024-04-01 07:27:23*
+
+
 ## v0.1.1 (2024-03-31)
 
 ### Bug Fixes
