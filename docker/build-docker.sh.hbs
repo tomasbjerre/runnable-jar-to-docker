@@ -11,14 +11,6 @@ curl https://repo1.maven.org/maven2/{{mavenGroupSlashes}}/{{cliname}}/{{version}
  --output $to_file
 
 
-{{#if compileNative}}
-echo Building native image
-native-image --no-fallback --static -jar $to_file builddir/{{cliname}}
-{{else}}
-echo Not building native image
-{{/if}}
-
-
 echo Building Docker image
 docker rmi -f {{dockerUser}}/{{cliname}}:{{version}} \
  || echo No previous image existed

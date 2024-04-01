@@ -1,10 +1,24 @@
 {{#if compileNative}}
+# https://www.graalvm.org/latest/docs/getting-started/container-images/
+FROM ghcr.io/graalvm/native-image-community:21-muslib as graalvmbuild
+COPY {{cliname}}.jar /usr/local/bin/{{cliname}}.jar
+RUN java -agentlib:native-image-agent=config-merge-dir=/usr/local/bin/config -jar /usr/local/bin/{{cliname}}.jar \
+ && cat /usr/local/bin/config/reflect-config.json
+RUN native-image \
+  -H:ConfigurationFileDirectories=/usr/local/bin/config \
+  --static \
+  --libc=musl \
+  -jar /usr/local/bin/{{cliname}}.jar \
+  /usr/local/bin/{{cliname}}
+
 FROM amd64/alpine:3.19.1
-COPY {{cliname}} /usr/local/bin/{{cliname}}
+COPY --from=graalvmbuild /usr/local/bin/{{cliname}} /usr/local/bin/{{cliname}}
+
 {{else}}
-FROM openjdk:17
+FROM eclipse-temurin:21.0.2_13-jre-alpine
 COPY {{cliname}}.jar /usr/local/bin/{{cliname}}.jar
 COPY bin /usr/local/bin/{{cliname}}
+
 {{/if}}
 WORKDIR /home/{{cliname}}
 RUN chmod +x /usr/local/bin/{{cliname}}

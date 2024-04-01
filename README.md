@@ -26,8 +26,8 @@ Options:
   --maven-group <group>         Maven Group
   --maven-artifact <artifact>   Maven Artifact
   --maven-version <version>     Maven Package Version
-  --compile-native <boolean>    True if the JAR should be compiled with GraalVM to native binary (default: false)
-  --dry-run <boolean>           True if nothing should be done, just printed (default: false)
+  --compile-native              True if the JAR should be compiled with GraalVM to native binary (default: false)
+  --dry-run                     True if nothing should be done, just printed (default: false)
   -h, --help                    display help for command
 ```
 
@@ -54,6 +54,6 @@ npm run build \
   --maven-group se.bjurr.violations \
   --maven-artifact violations-command-line \
   --maven-version 1.24.2 \
-  --compile-native true \
-  --dry-run true
+  --compile-native \
+  --dry-run
 ```

@@ -22,15 +22,11 @@ const program = new Command()
   .option('--maven-artifact <artifact>', 'Maven Artifact')
   .option('--maven-version <version>', 'Maven Package Version')
   .option(
-    '--compile-native <boolean>',
-    'True if the JAR should be compiled with GraalVM to native binary',
+    '--compile-native',
+    'Given if the JAR should be compiled with GraalVM to native binary',
     false
   )
-  .option(
-    '--dry-run <boolean>',
-    'True if nothing should be done, just printed',
-    false
-  );
+  .option('--dry-run', 'Given if nothing should be done, just printed', false);
 
 program.parse(process.argv);
 
