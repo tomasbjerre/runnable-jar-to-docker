@@ -57,3 +57,30 @@ npm run build \
   --compile-native \
   --dry-run
 ```
+
+```bash
+docker run --mount src="$(pwd)",target=/home/violations-command-line,type=bind tomasbjerre/violations-command-line:1.24.2 -v "FINDBUGS" src/test/resources/findbugs/ ".*main\.xml$" "Spotbugs"
+```
+
+Another example:
+
+```bash
+npm run build \
+ && node ./lib/cli.js \
+  --docker-username tomasbjerre \
+  --docker-password $dockerhub_token \
+  --maven-group se.bjurr.gitchangelog \
+  --maven-artifact git-changelog-command-line \
+  --maven-version 2.2.1 \
+  --dry-run
+```
+
+```bash
+docker run --mount src="$(pwd)",target=/home/git-changelog-command-line,type=bind tomasbjerre/git-changelog-command-line:2.2.1 -std
+```
+
+Or open a shell:
+
+```bash
+docker run --rm -it --entrypoint sh tomasbjerre/git-changelog-command-line:2.2.1
+```

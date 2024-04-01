@@ -1,8 +1,11 @@
 #!/bin/bash
 set -e
 set +x
+{{#if dryRun}}
+echo Not logging in to Docker when in dry run mode
+{{else}}
 docker login -u {{dockerUser}} -p {{dockerPassword}}
-
+{{/if}}
 
 to_file=builddir/{{cliname}}.jar
 echo Downloading {{version}} to $to_file

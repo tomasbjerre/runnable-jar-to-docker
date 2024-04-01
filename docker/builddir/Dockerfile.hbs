@@ -1,9 +1,14 @@
 {{#if compileNative}}
+
+#
+# Native
 # https://www.graalvm.org/latest/docs/getting-started/container-images/
+#
 FROM ghcr.io/graalvm/native-image-community:21-muslib as graalvmbuild
 COPY {{cliname}}.jar /usr/local/bin/{{cliname}}.jar
-RUN java -agentlib:native-image-agent=config-merge-dir=/usr/local/bin/config -jar /usr/local/bin/{{cliname}}.jar \
- && cat /usr/local/bin/config/reflect-config.json
+RUN java -agentlib:native-image-agent=config-merge-dir=/usr/local/bin/config -jar /usr/local/bin/{{cliname}}.jar --help \
+ && cat /usr/local/bin/config/reflect-config.json \
+ || echo Failed to generate reflect json
 RUN native-image \
   -H:ConfigurationFileDirectories=/usr/local/bin/config \
   -H:IncludeResources=".*(json|xml|properties|txt)$" \
@@ -13,15 +18,23 @@ RUN native-image \
   -jar /usr/local/bin/{{cliname}}.jar \
   /usr/local/bin/{{cliname}}
 
+# Multistage build
+# https://docs.docker.com/build/building/multi-stage/
 FROM amd64/alpine:3.19.1
 COPY --from=graalvmbuild /usr/local/bin/{{cliname}} /usr/local/bin/{{cliname}}
-
 {{else}}
+
+#
+# Fat image with JRE
+#
 FROM eclipse-temurin:21.0.2_13-jre-alpine
 COPY {{cliname}}.jar /usr/local/bin/{{cliname}}.jar
 COPY bin /usr/local/bin/{{cliname}}
-
-{{/if}}
-WORKDIR /home/{{cliname}}
 RUN chmod +x /usr/local/bin/{{cliname}}
+{{/if}}
+
+#
+# Common stuff
+#
+WORKDIR /home/{{cliname}}
 ENTRYPOINT ["{{cliname}}"]
