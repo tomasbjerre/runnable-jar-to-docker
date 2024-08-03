@@ -7,4 +7,6 @@ export interface Context {
   shortDescription: string;
   compileNative: boolean;
   dryRun: boolean;
+  architecture: string;
+  repositoryUrl: string;
 }

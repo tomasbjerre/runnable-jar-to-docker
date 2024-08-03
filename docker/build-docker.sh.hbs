@@ -10,14 +10,20 @@ docker login -u {{dockerUser}} -p {{dockerPassword}}
 to_file=builddir/{{cliname}}.jar
 echo Downloading {{version}} to $to_file
 rm -f $to_file
-curl https://repo1.maven.org/maven2/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
+curl {{repositoryUrl}}/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
  --output $to_file
 
 
 echo Building Docker image
 docker rmi -f {{dockerUser}}/{{cliname}}:{{version}} \
  || echo No previous image existed
+
+{{#if architecture}}
+docker buildx build \
+ --platform {{architecture}} \
+{{else}}
 docker build \
+{{/if}}
  -t {{dockerUser}}/{{cliname}}:{{version}} builddir
 
 
