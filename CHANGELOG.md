@@ -2,6 +2,37 @@
 
 Changelog of runnable-jar-to-docker.
 
+## v0.1.5 (2024-08-04)
+
+### Other changes
+
+**0.1.5**
+
+
+[69b95](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/69b95fefa951663) Tomas Bjerre *2024-08-04 13:30:35*
+
+**Merge pull request #1 from tthornton3-chwy/feature/adds-architecture-and-custom-repository**
+
+* feat: adds architecture and custom repository support 
+
+[65fbc](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/65fbcb4eeb56c05) Tomas Bjerre *2024-08-04 13:29:46*
+
+**allows variadic syntax as well!**
+
+
+[6aec0](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/6aec02d841f9808) Taylore *2024-08-04 08:22:39*
+
+**adds custom image name, registry path, and no readme support**
+
+
+[72c67](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/72c6777decd6615) Taylore *2024-08-04 07:34:19*
+
+**adds architecture and custom repository support**
+
+
+[27011](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/270115c9b11b662) Taylore *2024-08-03 11:50:22*
+
+
 ## v0.1.4 (2024-04-01)
 
 ### Bug Fixes
