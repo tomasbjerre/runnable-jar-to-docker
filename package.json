@@ -1,6 +1,6 @@
 {
   "name": "runnable-jar-to-docker",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "scripts": {
     "build": "npm run format && tsc -p .",
     "format": "prettier --write .",
