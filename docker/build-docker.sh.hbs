@@ -1,24 +1,31 @@
 #!/bin/bash
 set -e
 set +x
+
 {{#if dryRun}}
 echo Not logging in to Docker when in dry run mode
 {{else}}
-docker login -u {{dockerUser}} -p {{dockerPassword}}
+docker login -u {{dockerUser}} -p "{{dockerPassword}}" {{dockerRegistryPath}}
 {{/if}}
 
 to_file=builddir/{{cliname}}.jar
 echo Downloading {{version}} to $to_file
 rm -f $to_file
-curl https://repo1.maven.org/maven2/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
+curl {{repositoryUrl}}/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
  --output $to_file
 
 
 echo Building Docker image
-docker rmi -f {{dockerUser}}/{{cliname}}:{{version}} \
+docker rmi -f {{#if dockerRegistryPath}}{{dockerRegistryPath}}{{else}}{{dockerUser}}{{/if}}/{{dockerImageName}}:{{version}} \
  || echo No previous image existed
+
+{{#if architecture}}
+docker buildx build \
+ --platform {{architecture}} \
+{{else}}
 docker build \
- -t {{dockerUser}}/{{cliname}}:{{version}} builddir
+{{/if}}
+ -t {{#if dockerRegistryPath}}{{dockerRegistryPath}}{{else}}{{dockerUser}}{{/if}}/{{dockerImageName}}:{{version}} builddir
 
 
 echo Push image
@@ -27,9 +34,9 @@ docker images
 {{#if dryRun}}
 echo Not pushing when in dry run mode
 {{else}}
-docker push {{dockerUser}}/{{cliname}}:{{version}}
+docker push {{#if dockerRegistryPath}}{{dockerRegistryPath}}{{else}}{{dockerUser}}{{/if}}/{{dockerImageName}}:{{version}}
 
-
+{{#if updateReadme}}
 echo Update README.md
 readmeFile=README.md
 if [ -f "$readmeFile" ]; then
@@ -42,9 +49,10 @@ if [ -f "$readmeFile" ]; then
     --file /myvol/README.md \
     --short "{{shortDescription}}" \
     --debug \
-    {{dockerUser}}/{{cliname}}
+    {{#if dockerRegistryPath}}{{dockerRegistryPath}}{{else}}{{dockerUser}}{{/if}}/{{dockerImageName}}
 else
     echo "$readmeFile does not exist, not adding readme. Have a README.md in CWD if you want it added."
     ls
 fi
+{{/if}}
 {{/if}}
