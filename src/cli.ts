@@ -18,8 +18,17 @@ const program = new Command()
   .command(pkgJson.name)
   .option('--docker-username <username>', 'Docker username')
   .option('--docker-password <password>', 'Docker password')
+  .option(
+    '--docker-registry-path <path>',
+    'The registry to use for tagging/pushing your docker image'
+  )
+  .option(
+    '--docker-image-name <name>',
+    'The name of the docker image, with handlebar-supported syntax',
+    '{{ cliname }}'
+  )
   .option('--maven-group <group>', 'Maven Group')
-  .option('--maven-artifact <artifact>', 'Maven Artifact')
+  .option('--maven-artifact <artifact>', 'Maven Artifact / CLI Name')
   .option('--maven-version <version>', 'Maven Package Version')
   .option(
     '--compile-native',
@@ -36,6 +45,10 @@ const program = new Command()
     '--repository-url <url>',
     'The URL that the library exists at',
     'https://repo1.maven.org/maven2'
+  )
+  .option(
+    '--no-update-readme',
+    'Whether or not to attempt to update the DockerHub readme'
   );
 
 program.parse(process.argv);
@@ -46,6 +59,11 @@ console.log(
 );
 
 const mavenGroupSlashes = options.mavenGroup.replaceAll('.', '/');
+const dockerImageNameTemplateDelegate = Handlebars.compile(
+  options.dockerImageName,
+  { noEscape: true }
+);
+let dockerImageName: string;
 
 const pomUrl = `${options.repositoryUrl}/${mavenGroupSlashes}/${options.mavenArtifact}/${options.mavenVersion}/${options.mavenArtifact}-${options.mavenVersion}.pom`;
 const url = new URL(pomUrl);
@@ -64,11 +82,19 @@ console.log(`Getting ${pomUrl}`);
         version: options.mavenVersion,
         dockerUser: options.dockerUsername,
         dockerPassword: options.dockerPassword,
+        dockerRegistryPath: options.dockerRegistryPath,
+        dockerImageName: () => {
+          if (dockerImageName == null)
+            dockerImageName = dockerImageNameTemplateDelegate(context);
+
+          return dockerImageName;
+        },
         shortDescription: pomDescription,
         compileNative: options.compileNative,
         dryRun: options.dryRun,
         architecture: options.architecture,
         repositoryUrl: options.repositoryUrl,
+        updateReadme: options.updateReadme,
       };
 
       const workFolder = os.tmpdir() + '/' + crypto.randomUUID();
@@ -92,7 +118,7 @@ console.log(`Getting ${pomUrl}`);
           path.resolve(__dirname, '..', 'docker', `${templateFile}.hbs`)
         );
 
-        const template = Handlebars.compile(`${source}`);
+        const template = Handlebars.compile(`${source}`, { noEscape: true });
         const result = template(context);
         const file = `${targetFolder}/${templateFile}`;
         if (context) {
