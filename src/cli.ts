@@ -37,7 +37,7 @@ const program = new Command()
   )
   .option('--dry-run', 'Given if nothing should be done, just printed', false)
   .option(
-    '--architecture <architecture>',
+    '--architecture <architectures...>',
     'Choose what architecture(s) to build for',
     (value: string, previous: string) => previous?.concat(`,${value}`) ?? value
   )
