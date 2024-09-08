@@ -9,11 +9,16 @@ docker login -u {{dockerUser}} -p "{{dockerPassword}}" {{dockerRegistryPath}}
 {{/if}}
 
 to_file=builddir/{{cliname}}.jar
-echo Downloading {{version}} to $to_file
-rm -f $to_file
-curl {{repositoryUrl}}/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
- --output $to_file
-
+local_file=~/.m2/repository/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar
+if [ -f $local_file ]; then
+    echo Copying $local_file to $to_file
+    cp -v $local_file $to_file
+else
+    echo Downloading {{version}} to $to_file
+    rm -f $to_file
+    curl {{repositoryUrl}}/{{mavenGroupSlashes}}/{{cliname}}/{{version}}/{{cliname}}-{{version}}.jar \
+    --output $to_file
+fi
 
 echo Building Docker image
 docker rmi -f {{#if dockerRegistryPath}}{{dockerRegistryPath}}{{else}}{{dockerUser}}{{/if}}/{{dockerImageName}}:{{version}} \
