@@ -2,6 +2,20 @@
 
 Changelog of runnable-jar-to-docker.
 
+## v0.2.0 (2024-09-08)
+
+### Features
+
+-  look for file in ~/.m2 before downloading ([74c19](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/74c194db4378e30) Tomas Bjerre)  
+
+### Other changes
+
+**0.2.0**
+
+
+[456cf](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/456cfaaea78caa8) Tomas Bjerre *2024-09-08 06:22:32*
+
+
 ## v0.1.5 (2024-08-04)
 
 ### Other changes
