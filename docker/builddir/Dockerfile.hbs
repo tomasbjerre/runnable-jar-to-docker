@@ -27,7 +27,7 @@ COPY --from=graalvmbuild /usr/local/bin/{{cliname}} /usr/local/bin/{{cliname}}
 #
 # Fat image with JRE
 #
-FROM eclipse-temurin:21.0.2_13-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 COPY {{cliname}}.jar /usr/local/bin/{{cliname}}.jar
 COPY bin /usr/local/bin/{{cliname}}
 RUN chmod +x /usr/local/bin/{{cliname}}
