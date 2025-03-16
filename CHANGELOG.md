@@ -2,6 +2,20 @@
 
 Changelog of runnable-jar-to-docker.
 
+## v0.2.1 (2025-03-16)
+
+### Bug Fixes
+
+-  use latest 21-jre-alpine ([d0332](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/d03328cefb855dc) Tomas Bjerre)  
+
+### Other changes
+
+**0.2.1**
+
+
+[3d06c](https://github.com/tomasbjerre/runnable-jar-to-docker/commit/3d06cf9cd1765fa) Tomas Bjerre *2025-03-16 07:02:04*
+
+
 ## v0.2.0 (2024-09-08)
 
 ### Features
