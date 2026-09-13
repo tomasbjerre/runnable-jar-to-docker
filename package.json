@@ -10,17 +10,17 @@
   },
   "bin": "./lib/cli.js",
   "dependencies": {
-    "commander": "^10.0.1",
-    "fast-xml-parser": "^4.2.4",
-    "handlebars": "^4.7.7",
-    "node-fetch": "^2.0.0"
+    "commander": "^15.0.0",
+    "fast-xml-parser": "^5.11.1",
+    "handlebars": "^4.7.9",
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
-    "@types/node": "^16.9.1",
-    "@types/node-fetch": "^2.6.4",
-    "prettier": "^2.0.5",
-    "ts-node": "^8.9.0",
-    "typescript": "^3.8.3"
+    "@types/node": "^26.5.1",
+    "@types/node-fetch": "^2.6.13",
+    "prettier": "^3.9.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
   },
   "homepage": "https://github.com/tomasbjerre/runnable-jar-to-docker",
   "repository": "git@github.com:tomasbjerre/runnable-jar-to-docker.git",

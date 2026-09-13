@@ -20,15 +20,22 @@ npx runnable-jar-to-docker \
 Parameters:
 
 ```bash
+Usage:  runnable-jar-to-docker [options]
+
 Options:
-  --docker-username <username>  Docker username
-  --docker-password <password>  Docker password
-  --maven-group <group>         Maven Group
-  --maven-artifact <artifact>   Maven Artifact
-  --maven-version <version>     Maven Package Version
-  --compile-native              Given if the JAR should be compiled with GraalVM to native binary
-  --dry-run                     Given if nothing should be done, just printed
-  -h, --help                    display help for command
+  --docker-username <username>       Docker username
+  --docker-password <password>       Docker password
+  --docker-registry-path <path>      The registry to use for tagging/pushing your docker image
+  --docker-image-name <name>         The name of the docker image, with handlebar-supported syntax (default: "{{ cliname }}")
+  --maven-group <group>              Maven Group
+  --maven-artifact <artifact>        Maven Artifact / CLI Name
+  --maven-version <version>          Maven Package Version
+  --compile-native                   Given if the JAR should be compiled with GraalVM to native binary (default: false)
+  --dry-run                          Given if nothing should be done, just printed (default: false)
+  --architecture <architectures...>  Choose what architecture(s) to build for
+  --repository-url <url>             The URL that the library exists at (default: "https://repo1.maven.org/maven2")
+  --no-update-readme                 Whether or not to attempt to update the DockerHub readme
+  -h, --help                         display help for command
 ```
 
 ## Example projects

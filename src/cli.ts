@@ -20,12 +20,12 @@ const program = new Command()
   .option('--docker-password <password>', 'Docker password')
   .option(
     '--docker-registry-path <path>',
-    'The registry to use for tagging/pushing your docker image'
+    'The registry to use for tagging/pushing your docker image',
   )
   .option(
     '--docker-image-name <name>',
     'The name of the docker image, with handlebar-supported syntax',
-    '{{ cliname }}'
+    '{{ cliname }}',
   )
   .option('--maven-group <group>', 'Maven Group')
   .option('--maven-artifact <artifact>', 'Maven Artifact / CLI Name')
@@ -33,35 +33,35 @@ const program = new Command()
   .option(
     '--compile-native',
     'Given if the JAR should be compiled with GraalVM to native binary',
-    false
+    false,
   )
   .option('--dry-run', 'Given if nothing should be done, just printed', false)
   .option(
     '--architecture <architectures...>',
     'Choose what architecture(s) to build for',
-    (value: string, previous: string) => previous?.concat(`,${value}`) ?? value
+    (value: string, previous: string) => previous?.concat(`,${value}`) ?? value,
   )
   .option(
     '--repository-url <url>',
     'The URL that the library exists at',
-    'https://repo1.maven.org/maven2'
+    'https://repo1.maven.org/maven2',
   )
   .option(
     '--no-update-readme',
-    'Whether or not to attempt to update the DockerHub readme'
+    'Whether or not to attempt to update the DockerHub readme',
   );
 
 program.parse(process.argv);
 
 const options = program.opts();
 console.log(
-  `Params: ${JSON.stringify({ ...options, dockerPassword: '***' }, null, 4)}`
+  `Params: ${JSON.stringify({ ...options, dockerPassword: '***' }, null, 4)}`,
 );
 
 const mavenGroupSlashes = options.mavenGroup.replaceAll('.', '/');
 const dockerImageNameTemplateDelegate = Handlebars.compile(
   options.dockerImageName,
-  { noEscape: true }
+  { noEscape: true },
 );
 let dockerImageName: string;
 
@@ -105,17 +105,17 @@ console.log(`Getting ${pomUrl}`);
         `Context: ${JSON.stringify(
           { ...context, dockerPassword: '***' },
           null,
-          4
-        )}`
+          4,
+        )}`,
       );
 
       const render = function (
         templateFile: string,
         context: Context,
-        targetFolder: string
+        targetFolder: string,
       ) {
         const source = fs.readFileSync(
-          path.resolve(__dirname, '..', 'docker', `${templateFile}.hbs`)
+          path.resolve(__dirname, '..', 'docker', `${templateFile}.hbs`),
         );
 
         const template = Handlebars.compile(`${source}`, { noEscape: true });
@@ -142,7 +142,7 @@ console.log(`Getting ${pomUrl}`);
       const spawnedBuildDocker = spawn(
         'sh',
         ['build-docker.sh', options.mavenVersion],
-        { cwd: workFolder }
+        { cwd: workFolder },
       );
       spawnedBuildDocker.stdout.on('data', function (data) {
         console.log('stdout: ' + data.toString());
@@ -158,5 +158,5 @@ console.log(`Getting ${pomUrl}`);
     return url.protocol === 'file:'
       ? startBuild(Buffer.from(response).toString())
       : response.text().then(startBuild);
-  }
+  },
 );
