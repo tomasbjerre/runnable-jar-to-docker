@@ -2,17 +2,20 @@ name: Publish to npm
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -23,6 +26,17 @@ jobs:
 
       - run: npm ci
 
+      - name: Determine next version
+        id: version
+        run: echo "version=$(npx git-changelog-command-line --print-next-version)" >> "$GITHUB_OUTPUT"
+
+      - run: npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+
       - run: npx tsc -p .
 
       - run: npm publish --access public
+
+      - name: Tag release
+        run: |
+          git tag "v${{ steps.version.outputs.version }}"
+          git push origin "v${{ steps.version.outputs.version }}"
