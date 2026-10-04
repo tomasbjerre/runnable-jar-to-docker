@@ -20,7 +20,7 @@ RUN native-image \
 
 # Multistage build
 # https://docs.docker.com/build/building/multi-stage/
-FROM amd64/alpine:3.19.1
+FROM amd64/alpine:3.24.2
 COPY --from=graalvmbuild /usr/local/bin/{{cliname}} /usr/local/bin/{{cliname}}
 {{else}}
 
